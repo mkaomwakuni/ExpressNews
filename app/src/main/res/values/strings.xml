@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ExpressNews</string>
+    <string name="AppName">𝐄𝐗𝐏𝐑𝐄𝐒𝐒 𝐍𝐄𝐖𝐒</string>
+    <string name="Home">Home</string>
+    <string name="World">World</string>
+    <string name="Account">User</string>
+    <string name="Saved">Saved</string>
 </resources>
