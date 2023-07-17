@@ -1,6 +1,8 @@
 package dev.mkao.expressnews
 
- sealed class DestinationPage (val title:String,val icon:Int,val route:String) {
+import android.graphics.drawable.Icon
+
+sealed class DestinationPage (val title:String,val route:String,val icon: Int) {
   // create destinations
   object Home:DestinationPage(
    route = "Home", icon = R.drawable.home,
@@ -8,7 +10,7 @@ package dev.mkao.expressnews
   )
   object World:DestinationPage(
    route = "World", icon = R.drawable.world,
-   title = "Global"
+   title = "World"
   )
   object Favourites: DestinationPage(
    route = "Favourites", icon = R.drawable.favourites,
@@ -16,7 +18,7 @@ package dev.mkao.expressnews
   )
   object Account : DestinationPage(
    route = "User", icon = R.drawable.account,
-   title = "Account"
+   title = "User"
   )
 
   companion object {

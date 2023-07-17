@@ -3,10 +3,14 @@ package dev.mkao.expressnews
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -18,7 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import dev.mkao.expressnews.DestinationPage.*
 import dev.mkao.expressnews.DestinationPage.Account.route
 import dev.mkao.expressnews.ui.theme.ExpressNewsTheme
@@ -91,7 +98,7 @@ fun NavigationMechanism(navController: NavHostController) {
 
 @Composable
 fun BottomNavigationBar(navController: NavController, appItems: List<DestinationPage>) {
-
+var selectedTab by remember { mutableStateOf(0) }
     BottomNavigation(
         backgroundColor = colorResource(id = R.color.seal),
         contentColor = Color.DarkGray
@@ -99,15 +106,16 @@ fun BottomNavigationBar(navController: NavController, appItems: List<Destination
         //
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
-        appItems.forEach { item ->
+        appItems.forEachIndexed { index, item ->
+            val isSelected = selectedTab == index
+            val backgroundShape = if (isSelected) RoundedCornerShape(12.dp) else CircleShape
+            val backgroundColor = if (isSelected) colorResource(id = R.color.light_blue) else Color.Transparent
+            val contentColor = if (isSelected) Color.White else Color.DarkGray
             BottomNavigationItem(
-                icon = { Icon(painterResource(id = item.icon), contentDescription = item.title) },
-                label = { Text(text = item.title) },
-                alwaysShowLabel = true,
-                selectedContentColor = Color.White,
-                unselectedContentColor = Color.LightGray.copy(0.4f),
-                selected = currentRoute == item.route, onClick = {
+                selected = isSelected,
+                onClick = {
                     //
+                    selectedTab = index
                     navController.navigate(item.route) {
                         navController.graph.startDestinationRoute?.let {
                             route
@@ -119,11 +127,47 @@ fun BottomNavigationBar(navController: NavController, appItems: List<Destination
                         restoreState = true
 
                     }
-                }
+                },
+                label = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .background(
+                                color = backgroundColor,
+                                shape = backgroundShape
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+
+                           Icon(
+                               painterResource(id = item.icon),
+                               contentDescription = item.title,
+                               tint = contentColor
+                           )
+                           Text(
+                               text = item.title,
+                               color = contentColor,
+                               modifier = Modifier
+                                   .padding(top = 10.dp),
+                               fontSize = 14.sp
+
+                           )
+
+                    }
+                },
+
+                alwaysShowLabel = true,
+                selectedContentColor = Color.White,
+                unselectedContentColor = Color.DarkGray.copy(0.4f),
+                icon = {},
+                modifier = Modifier.fillMaxWidth(),
+                enabled = true,
+                interactionSource = MutableInteractionSource()
             )
-        }
+          }
     }
-}
+  }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
