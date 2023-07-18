@@ -1,4 +1,4 @@
-package dev.mkao.expressnews
+ package dev.mkao.expressnews
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 fun Categories() {
     val sourcesCategory = listOf("Technology","Sports","Politics","Finance","War","World")
     val navController = rememberNavController()
-    Scaffold(backgroundColor = colorResource(id = R.color.purple_200),
+    Scaffold(backgroundColor = colorResource(id = R.color.white),
         topBar = {
             Column(modifier = Modifier
                 .fillMaxWidth()
@@ -100,7 +100,7 @@ fun NavigationMechanism(navController: NavHostController) {
 fun BottomNavigationBar(navController: NavController, appItems: List<DestinationPage>) {
 var selectedTab by remember { mutableStateOf(0) }
     BottomNavigation(
-        backgroundColor = colorResource(id = R.color.seal),
+        backgroundColor = colorResource(id = R.color.white),
         contentColor = Color.DarkGray
     ) {
         //
@@ -130,7 +130,8 @@ var selectedTab by remember { mutableStateOf(0) }
                 },
                 label = {
                     Row(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .background(
                                 color = backgroundColor,
                                 shape = backgroundShape
@@ -138,27 +139,42 @@ var selectedTab by remember { mutableStateOf(0) }
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
+                        if (isSelected) {
 
-                           Icon(
-                               painterResource(id = item.icon),
-                               contentDescription = item.title,
-                               tint = contentColor
-                           )
-                           Text(
-                               text = item.title,
-                               color = contentColor,
-                               modifier = Modifier
-                                   .padding(top = 10.dp),
-                               fontSize = 14.sp
+                            Icon(
+                                painterResource(id = item.icon),
+                                contentDescription = item.title,
+                                tint = if (isSelected) contentColor else Color.LightGray
+                            )
+                            Text(
+                                text = item.title,
+                                color = contentColor,
+                                modifier = Modifier
+                                    .padding(top = 10.dp),
+                                fontSize = 10.sp
+                            )
+                        }else
+                        {
+                            Icon(
+                                painterResource(id = item.icon),
+                                contentDescription = item.title,
+                                tint = if (isSelected) contentColor else Color.LightGray
+                            )
+                            Text(
+                                text = item.title,
+                                color = Color.White,
+                                modifier = Modifier
+                                    .padding(top = 10.dp),
+                                fontSize = 10.sp
+                            )
 
-                           )
-
+                        }
                     }
                 },
 
                 alwaysShowLabel = true,
                 selectedContentColor = Color.White,
-                unselectedContentColor = Color.DarkGray.copy(0.4f),
+                unselectedContentColor = Color.White.copy(0.4f),
                 icon = {},
                 modifier = Modifier.fillMaxWidth(),
                 enabled = true,
