@@ -4,16 +4,26 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,16 +71,57 @@ fun Categories() {
     val navController = rememberNavController()
     Scaffold(backgroundColor = colorResource(id = R.color.white),
         topBar = {
-            Column(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 0.dp)
-                .statusBarsPadding()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+                    .statusBarsPadding()
+            ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "𝐄𝐗𝐏𝐑𝐄𝐒𝐒 𝐍𝐄𝐖𝐒",
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                TopAppBar(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .height(60.dp)
+                        .border(
+                            width = 0.dp,
+                            color = Color.Transparent,
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                        .clip(shape = RoundedCornerShape(12.dp)),
+                    title = { /* Optional title content */ },
+                    
+                    navigationIcon = {
+                        IconButton(
+                            onClick = { /* Handle menu icon click */ }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Menu,
+                                contentDescription = "Menu"
+                            )
+                        }
+                    },
+                    backgroundColor = Color.Transparent,
+                    contentColor = Color.DarkGray,
+                    elevation = 0.dp,
+                    actions = {
+                        IconButton(
+                            onClick = { /* Handle search icon click */ }
+                        ) {
+                            Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")
+                        }
+                        IconButton(
+                            onClick = { /* Handle notification icon click */ }
+                        ) {
+                            Icon(imageVector = Icons.Filled.Notifications, contentDescription = "Search")
+                        }
+                    }
                 )
             }
         },
